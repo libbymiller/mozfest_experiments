@@ -1,0 +1,86 @@
+ <style>
+
+  </style>
+  <div id="rssi"></div>
+  <div id="message"></div>
+  <script type="text/javascript" src="beep.js"></script>
+  <script type="text/javascript"
+        src="http://localhost:9292/faye/client.js"></script>
+  <script>
+      //web audio api stuff
+      var context;
+
+
+      // characters we want to encode
+      var alphabet = [];
+      var max = 100;
+      var min = 35;
+      for (var i = max; i >= min; i--) {
+        alphabet.push(i);
+      }
+
+      // hi and low frequencies
+      var hi = 3400;
+      var low = 400;
+
+
+      // encoding parameters
+      var start_array = ['#','*','#'];
+      var dupe = "|";
+      var caps = "!";
+
+      // keys and associated freqncies
+      var freqs = [];
+      var keys = [];
+
+      // Tones
+      var tones = {};
+
+      // Milliseconds of sound
+      var note_length = 150;
+
+      // Element to log to
+      var log = document.getElementById("message");
+
+      init();
+      get_context();
+
+      var prev_notes = {};
+      var last_seen = {};
+
+      //faye stuff
+      var client = new Faye.Client("http://localhost:9292/faye");
+      var subscription = client.subscribe('/rssi', function(message) {
+           console.log(message);
+           id = message.id;
+           rssi = message.rssi;
+           document.getElementById("rssi").innerHTML = "id: "+id+" rssi: "+rssi;
+           if(prev_notes[id]){
+               var prev = prev_notes[id];
+               console.log("stopping "+prev);
+               stop_playing_note(prev);
+               delete prev_notes[id];
+           }else{
+               console.log("no prev note for this id");
+           }
+
+           var index = parseInt(rssi);
+
+           if(index > max){//it's vanished, so do nothing
+             ;
+           }else{
+             var key = keys.indexOf(index);
+
+             var freq = freqs[key];
+             console.log("key is "+key+" freq is "+freq);
+             if(freq){
+               play_note(freq);
+               prev_notes[id] = freq;
+             }else{
+               console.log("cannot play freq "+freq+" index: "+index+" key: "+key);
+               console.log(keys);             
+             }
+           }
+
+      });
+  </script>
