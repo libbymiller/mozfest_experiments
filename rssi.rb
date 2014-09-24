@@ -29,14 +29,10 @@ class MyApp < Sinatra::Base
 
   get '/set_rssi/:id/:rssi' do
     cross_origin
-    require 'pp'
-    pp params
-    puts "!!!!!!!!"
     id =  params[:id]
     rssi =  params[:rssi]
     puts "id is #{id}"
     puts "rssi is #{rssi}"
-    puts "client is #{client}"
     client.publish('/rssi', 'id' => id, 'rssi' => rssi)
   end
 
