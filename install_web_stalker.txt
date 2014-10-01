@@ -1,0 +1,47 @@
+sudo raspi-config
+
+# resize
+# reboot
+
+sudo apt-get update
+sudo apt-get upgrade
+
+#installing airodump-ng
+
+wget http://download.aircrack-ng.org/aircrack-ng-1.2-beta3.tar.gz
+tar -zxvf aircrack-ng-1.2-beta3.tar.gz
+cd aircrack-ng-1.2-beta3
+sudo apt-get install libnl-dev libssl-dev iw
+make
+sudo make install
+
+
+#install node.js:
+#http://raspberryalphaomega.org.uk/2014/06/11/installing-and-using-node-js-on-raspberry-pi/
+sudo su -
+cd /opt
+wget http://nodejs.org/dist/v0.10.25/node-v0.10.25-linux-arm-pi.tar.gz
+tar xvzf node-v0.10.25-linux-arm-pi.tar.gz
+ln -s node-v0.10.25-linux-arm-pi node
+chmod a+rw /opt/node/lib/node_modules
+chmod a+rw /opt/node/bin
+echo 'PATH=$PATH:/opt/node/bin' > /etc/profile.d/node.sh
+#^D
+
+git clone https://github.com/libbymiller/mozfest_experiments
+cd mozfest_experiments
+npm install
+
+#add init.d
+
+sudo cp init.d/wifi_stalker /etc/init.d/
+sudo chmod 755 /etc/init.d/wifi_stalker
+sudo chown root:root /etc/init.d/wifi_stalker
+
+sudo update-rc.d wifi_stalker defaults
+sudo update-rc.d wifi_stalker enable
+
+#add network to
+#/etc/wpa_supplicant.conf
+
+
