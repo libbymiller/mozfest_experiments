@@ -4,15 +4,17 @@ var crypto = require('crypto');
 var faye = require('faye');
 
 var faye_host = null;
+var my_id = null;
 
-if(process.argv[2]==null){
-  console.log("Usage: node wifi.js hostIP");
+if(process.argv[2]==null || process.argv[3]==null){
+  console.log("Usage: node wifi.js fayeHostIP host");
   return 0;
 }else{
   faye_host = process.argv[2];
+  my_id = process.argv[3];
 }
 
-console.log("faye_host is "+faye_host);
+console.log("faye_host is "+faye_host+" host is "+my_id);
 
 var client = new faye.Client('http://'+faye_host+':9292/faye');
 
@@ -29,6 +31,7 @@ fs.watch("moz", function (event, filename) {
       arr = data.split("\r\n");
       arr2 = arr.slice(6,arr.length-2)
       var data = {};
+      data["host"] = my_id;
       if(arr2){
         for(var a in arr2){
           arr3 = arr2[a].split(",");
@@ -39,7 +42,7 @@ fs.watch("moz", function (event, filename) {
           var power = parseInt(arr3[3]);
           console.log("ID is "+id+" POWER is "+power);
           data[id] = power;
-//          client.publish('/foo', {id: id, power: power});
+//        client.publish('/foo', {id: id, power: power});
         }
         console.log(data);
         client.publish('/foo', data);

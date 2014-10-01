@@ -1,5 +1,7 @@
 #/bin/sh
 
+host=$(hostname)
+
 cd /home/pi/mozfest_experiments/moz/;
 sudo rm moz-*;
 sudo airmon-ng check kill;
@@ -12,4 +14,4 @@ sudo dhclient wlan1;
 sleep 5
 
 cd /home/pi/mozfest_experiments
-nohup /opt/node/bin/node wifi.js "192.168.1.10" &
+nohup /opt/node/bin/node wifi.js "192.168.1.10" $host &
