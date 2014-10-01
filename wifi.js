@@ -28,20 +28,22 @@ fs.watch("moz", function (event, filename) {
       }
       arr = data.split("\r\n");
       arr2 = arr.slice(6,arr.length-2)
+      var data = {};
       if(arr2){
         for(var a in arr2){
           arr3 = arr2[a].split(",");
-//          console.log(arr3);
           var mac_addr = arr3[0];
           var shasum = crypto.createHash('sha1');
           shasum.update(mac_addr);
           var id = shasum.digest('hex');
-          var power = arr3[3]
+          var power = parseInt(arr3[3]);
           console.log("ID is "+id+" POWER is "+power);
-//          console.log('/set_rssi/'+id+'/'+Math.abs(parseInt(power)));
-//          make_http_call(id, power);
-          client.publish('/foo', {id: id, power: power});
+          data[id] = power;
+//          client.publish('/foo', {id: id, power: power});
         }
+        console.log(data);
+        client.publish('/foo', data);
+
       }
 
     });
