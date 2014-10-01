@@ -77,7 +77,7 @@ Web Audio playback works on Chrome, Safari and Mozilla, but not on Epiphany, the
 
 The code is here:
 https://github.com/libbymiller/mozfest_experiments/blob/master/default.rb
-https://github.com/libbymiller/mozfest_experiments/blob/master/views/audio_http.erb
+https://github.com/libbymiller/mozfest_experiments/blob/master/views/music.erb
 
 
 3. Wifi mac address and proximity
