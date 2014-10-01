@@ -16,6 +16,7 @@ class MyApp < Sinatra::Base
     client = Faye::Client.new('http://localhost:9292/faye')
 
     client.subscribe('/foo') do |message|
+      puts "got message"
       puts message.inspect
     end
 
@@ -23,8 +24,14 @@ class MyApp < Sinatra::Base
 
   get '/' do
     cross_origin
-    puts "hello"  
-    erb :index
+    puts "simple_message"  
+    erb :simple_message
+  end
+
+  get '/music' do
+    cross_origin
+    puts "music"  
+    erb :music
   end
 
   get '/set_rssi/:id/:rssi' do

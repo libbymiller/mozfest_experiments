@@ -1,0 +1,17 @@
+ <style>
+
+  </style>
+  <div id="message"></div>
+  <script type="text/javascript"
+        src="http://localhost:9292/faye/client.js"></script>
+  <script>
+      //faye stuff
+      var client = new Faye.Client("http://localhost:9292/faye");
+      var subscription = client.subscribe('/foo', function(message) {
+           console.log(message);
+           var id = message.id;
+           var power = message.power;
+           document.getElementById("message").innerHTML = "id "+id+" power "+power;
+
+      });
+  </script>

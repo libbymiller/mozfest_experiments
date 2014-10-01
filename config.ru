@@ -1,2 +1,2 @@
-require './rssi'
+require './default'
 run MyApp.new
