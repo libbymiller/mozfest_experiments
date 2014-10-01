@@ -1,0 +1,46 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          wifi_stalker
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Wifi Stalker
+# Description:       Uses Airmon and Airodump to track wifi mac addresses
+### END INIT INFO
+# Quick start-stop-daemon example, derived from Debian /etc/init.d/ssh
+set -e
+
+export PATH=$PATH:/usr/local/bin
+#export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+export LOG_LEVEL=debug
+
+# Must be a valid filename
+NAME=wifi_stalker
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+    echo -n "Starting "$NAME
+    /bin/sh /home/pi/mozfest_experiments/start_wifi_stalker.sh > /var/log/$NAME_start.log 2>&1
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping daemon: "$NAME
+    /bin/sh /home/pi/mozfest_experiments/stop_wifi_stalker.sh > /var/log/$NAME_stop.log 2>&1
+    echo "."
+    ;;
+  restart)
+    echo -n "Restarting daemon: "$NAME
+    /bin/sh /home/pi/mozfest_experiments/start_wifi_stalker.sh > /var/log/$NAME_start.log 2>&1
+    /bin/sh /home/pi/mozfest_experiments/stop_wifi_stalker.sh > /var/log/$NAME_stop.log 2>&1
+    echo "."
+    ;;
+
+  *)
+    echo "Usage: "$1" {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
