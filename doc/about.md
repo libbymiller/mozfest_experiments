@@ -9,7 +9,9 @@ which phones are not usually. We've not tried RFID yet - that should work fine w
 reader, but only in very close or touching proximity.
 
 
-New proposal
+# New proposal
+
+*Note that we'recurrently investigating a different idea to do with images rather than audio*
 
 Andrew Nicolaou and I had a think about our options, producing the following requirements:
 
