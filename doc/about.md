@@ -48,8 +48,8 @@ This was the most detailed investigation, and is based on previous work I've don
 
 Noble is very easy to use, I tried it on mac os X 10.9 and linux (Raspberry pi). It requires a dongle and a little setup on the PI:
 
-   sudo apt-get install bluetooth bluez blueman libbluetooth-dev
-   npm install noble
+    sudo apt-get install bluetooth bluez blueman libbluetooth-dev
+    npm install noble
 
 On Mac os X you need a machine that can do BTLE, < 2 years old: if it's not built in, you need a dongle, which are ~£5.
 
@@ -62,8 +62,7 @@ Here as with the Nike Fuelband I was using them only as identifiers, not any of 
 
 In order to get the IDs of nearby devices you just need to scan; but in order to get their proximity you need to connect to them. Connecting typically times out after a few seconds so you need to reconnect frequently. Proximity (RRSI) is inaccurate, although there are ways to process it which make it less so, though I've not tried them. Requesting RSSI more than once every 2 seconds makes it more inaccurate. Devices seem to vary and it appeared there was some interaction between them. Other strange things were that the same device ids appeared differently on the Raspberry pi and the mac. It may be possible for some devices to get more information associated with them, such as manufacturer.
 
-The code is here:
-https://github.com/libbymiller/mozfest_experiments/rssi.rb
+The code is [here](https://github.com/libbymiller/mozfest_experiments/rssi.js)
 
 All it does is use noble to detect to and connect to any available BTLE devices and get their IDs and RSSIs. It sends a call to a specified url whenever it detects an RSSI or if it decides it's out of range. 
 
